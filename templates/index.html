@@ -7,5 +7,16 @@
 
 
 {% block content %}
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo iusto, voluptatibus earum consequuntur enim sunt? Tenetur doloremque nesciunt tempora commodi, ab voluptatibus amet, repudiandae ex ullam culpa vel cum repellat.</p>
+<main class="container  d-flex flex-column  align-items-center justify-content-center" style="height: 90vh;">
+    <section class="p-5" >
+        <h1>YouTube Comments Sentiments Analyze</h1>
+        <form action="{{ url_for('comments') }}" method="post">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="video_id" name="video_id" required="" minlength="8" aria-describedby="emailHelp" placeholder="Enter YouTube video id ...">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+          <p class="text-center mt-3 text-danger">{{ error_code }}</p>
+        </form>
+    </section>
+</main>
 {% endblock %}
