@@ -38,6 +38,7 @@ def comments():
         positive_Average = 0
         negative_Average = 0
         idType = ''
+        filtered_comments = []
 
         for comment in comments['items']:
             text = comment['snippet']['topLevelComment']['snippet']['textDisplay']
@@ -48,19 +49,27 @@ def comments():
             positive_Average += comment['sentiment']['pos']
             negative_Average += comment['sentiment']['neg']
 
-            if 'audio' in text:
-                idType = 'audio'
-                # break
-            elif 'video' in text:
-                idType = 'video'
-                # break
-            elif 'recommendation' in text:
-                idType = 'recommendations'
-                # break
+            words = text.split(" ")
+            found_keywords = []
+            for word in words:
+                if word in ['audio', 'video', 'recommendation', 'song']:
+                    found_keywords.append(word)
+            if found_keywords:
+                comment['found_keywords'] = found_keywords
+                filtered_comments.append(comment)
+
+
+            
+        # print(filtered_comments)
+
+        for filtered in filtered_comments:
+            textCom = filtered['snippet']['topLevelComment']['snippet']['textDisplay']
+            print(textCom)
+            
         
             
     
-        return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average) / 100, avg_negative = round(negative_Average) / 100, contentType = idType)
+        return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average) / 100, avg_negative = round(negative_Average) / 100, contentType = idType, filteredComment=filtered_comments)
 
     else:
         return render_template('index.html')

@@ -1,20 +1,22 @@
 {% extends "base.html" %} {% block title %} Comments {% endblock %} {% block
 content %}
 <main class="col-md-12 ms-sm-auto px-md-4" style="height: 100vh">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
     <h1 class="h2">Dashboard</h1>
-    <div class="btn-toolbar mb-2 mb-md-0 gap-2 ">
+    <div class="btn-toolbar mb-2 mb-md-0 gap-2">
       <div class="btn-container"></div>
 
-    <div class="btn-group me-2">
-      <button type="button" class="btn btn-sm btn-success">
-        Average Positive Sentiments : {{ avg_positive }}%
-      </button>
-      <button type="button" class="btn btn-sm btn-danger">
-        Average Negative Sentiments : {{ avg_negative }}%
-      </button>
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-success">
+          Average Positive Sentiments : {{ avg_positive }}%
+        </button>
+        <button type="button" class="btn btn-sm btn-danger">
+          Average Negative Sentiments : {{ avg_negative }}%
+        </button>
+      </div>
     </div>
-  </div>
   </div>
   <div class="table-responsive">
     <table class="table border table-sm">
@@ -28,7 +30,7 @@ content %}
       </thead>
       <tbody>
         {% for comment in comments %}
-        <tr id='{{ contentType }}'>
+        <tr id="{{ filteredComment.found_keywords }}">
           <td>{{ loop.index }}</td>
           <td>
             {{
@@ -50,9 +52,41 @@ content %}
             {% else %} N/A {% endif %}
           </td>
         </tr>
+
         {% endfor %}
+        
       </tbody>
     </table>
+
+    <table>
+      <tbody>
+        <tr>
+          <th scope="col">Keywords</th>
+          <th scope="col">Username</th>
+          <th scope="col">Comments</th>
+        </tr>
+        {% for comment in filteredComment %}
+        <tr>
+          <td>
+            
+            {{ comment.found_keywords }}
+          </td>
+          <td>
+            {{ comment.snippet.topLevelComment.snippet.authorDisplayName.replace('@','')  }}
+
+          </td>
+          <td>
+
+            {{ comment.snippet.topLevelComment.snippet.textDisplay }}
+          </td>
+          
+        {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+
   </div>
+
+  
 </main>
 {% endblock %}
