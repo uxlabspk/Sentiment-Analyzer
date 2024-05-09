@@ -1,4 +1,4 @@
-const ourProjects = ["All", "Video", "Audio", "Content"];
+const ourProjects = ["All", "Video", "Audio"];
 
 const btn = document.querySelector(".btn-container");
 

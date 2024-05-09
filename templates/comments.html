@@ -28,7 +28,7 @@ content %}
       </thead>
       <tbody>
         {% for comment in comments %}
-        <tr>
+        <tr id='{{ contentType }}'>
           <td>{{ loop.index }}</td>
           <td>
             {{

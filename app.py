@@ -17,7 +17,6 @@ def index():
 
 @app.route('/comments', methods=['POST', 'GET'])
 def comments():
-    error_string = ""
     if request.method == 'POST' and 'video_id' in request.form:
         video_id = get_youtube_video_id(request.form['video_id'])
         api_key = api_KEY
@@ -38,6 +37,7 @@ def comments():
 
         positive_Average = 0
         negative_Average = 0
+        idType = ''
 
         for comment in comments['items']:
             text = comment['snippet']['topLevelComment']['snippet']['textDisplay']
@@ -48,12 +48,22 @@ def comments():
             positive_Average += comment['sentiment']['pos']
             negative_Average += comment['sentiment']['neg']
 
+            if 'audio' in text:
+                idType = 'audio'
+                # break
+            elif 'video' in text:
+                idType = 'video'
+                # break
+            elif 'recommendation' in text:
+                idType = 'recommendations'
+                # break
+        
             
-        return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average), avg_negative = round(negative_Average))
+    
+        return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average) / 100, avg_negative = round(negative_Average) / 100, contentType = idType)
 
     else:
-        error_string = "error occur"
-        return render_template('index.html', error_code = error_string)
+        return render_template('index.html')
 
 
 
