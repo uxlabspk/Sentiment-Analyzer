@@ -1,27 +1,20 @@
-
-{% extends "base.html" %}
-
-
-{% block title %}
-Comments
-{% endblock %}
-
-{% block content %}
-<main class="col-md-12 ms-sm-auto px-md-4 " style="height: 100vh;">
+{% extends "base.html" %} {% block title %} Comments {% endblock %} {% block
+content %}
+<main class="col-md-12 ms-sm-auto px-md-4" style="height: 100vh">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Dashboard</h1>
     <div class="btn-toolbar mb-2 mb-md-0 gap-2 ">
-      <div class="btn-group" role="group" aria-label="Basic outlined example">
-        <button type="button" class="btn btn-outline-primary">All</button>
-        <button type="button" class="btn btn-outline-primary">Content</button>
-        <button type="button" class="btn btn-outline-primary">Video</button>
-        <button type="button" class="btn btn-outline-primary">Audio</button>
-      </div>
-      <div class="btn-group me-2">
-        <button type="button" class="btn btn-sm btn-success">Average Positive Sentiments : {{ avg_positive }}%</button>
-        <button type="button" class="btn btn-sm btn-danger">Average Negative Sentiments : {{ avg_negative }}%</button>
-      </div>
+      <div class="btn-container"></div>
+
+    <div class="btn-group me-2">
+      <button type="button" class="btn btn-sm btn-success">
+        Average Positive Sentiments : {{ avg_positive }}%
+      </button>
+      <button type="button" class="btn btn-sm btn-danger">
+        Average Negative Sentiments : {{ avg_negative }}%
+      </button>
     </div>
+  </div>
   </div>
   <div class="table-responsive">
     <table class="table border table-sm">
@@ -37,19 +30,24 @@ Comments
         {% for comment in comments %}
         <tr>
           <td>{{ loop.index }}</td>
-          <td>{{ comment.snippet.topLevelComment.snippet.authorDisplayName.replace('@', '') }}</td>
+          <td>
+            {{
+            comment.snippet.topLevelComment.snippet.authorDisplayName.replace('@',
+            '') }}
+          </td>
           <td>{{ comment.snippet.topLevelComment.snippet.textDisplay }}</td>
           <td>
-            {% if comment.sentiment %} 
-                <ul class="d-flex gap-3 text-center ">
-                    <p>Positive <br>{{ comment.sentiment.pos * 100 }}%</p>
-                    <p>Negative <br>{{ comment.sentiment.neg * 100 }}%</p>
-                    <p>Neutral <br> {{ comment.sentiment.neu * 100 }}%</p>
-                    <p>Compound <br>{{ comment.sentiment.compound * 100 }}%</p>
-                </ul>
-            {% else %}
-                N/A
-            {% endif %}
+            {% if comment.sentiment %}
+            <ul class="d-flex gap-3 text-center">
+              <p>Positive <br />{{ comment.sentiment.pos * 100 }}%</p>
+              <p>Negative <br />{{ comment.sentiment.neg * 100 }}%</p>
+              <p>
+                Neutral <br />
+                {{ comment.sentiment.neu * 100 }}%
+              </p>
+              <p>Compound <br />{{ comment.sentiment.compound * 100 }}%</p>
+            </ul>
+            {% else %} N/A {% endif %}
           </td>
         </tr>
         {% endfor %}
