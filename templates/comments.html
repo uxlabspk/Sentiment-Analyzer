@@ -28,7 +28,7 @@ Comments
               
               <td>{{ comment.snippet.topLevelComment.snippet.textDisplay }}</td>
               <td>
-                {% if comment.sentiment %}
+                {% if comment.sentiment %} 
                 <ul class="d-flex gap-3 text-center ">
                     <p>Positive <br>{{ comment.sentiment.pos *100 }}%</p>
                     <p>Negative <br>{{ comment.sentiment.neg *100 }}%</p>
