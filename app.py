@@ -41,7 +41,6 @@ def comments():
         error_string = "error occur"
         return render_template('index.html', error_code = error_string)
 
-    return "sdf"
 
 
 
