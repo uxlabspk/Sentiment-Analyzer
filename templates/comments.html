@@ -7,64 +7,48 @@ Comments
 {% endblock %}
 
 {% block content %}
-<main class="container d-flex flex-column align-items-center justify-content-center">
-  <section class="p-5 ">
-      <h1 class="text-center">Comments</h1>
-      <div class="table-responsive">
-        <table class="table table-hover align-middle ">
-          <thead>
-            <tr class="align-middle ">
-              <th scope="col">#</th>
-              <th scope="col">Username</th>
-              <th scope="col">Comments</th>
-              <th scope="col">Sentiment Analysis</th>
-            </tr> 
-          </thead>
-          <tbody class="table-group-divider">
-            {% for comment in comments %}
-            <tr class="align-middle ">
-              <th scope="row">{{ loop.index }}</th>
-              <td class="text-dark h6">{{ comment.snippet.topLevelComment.snippet.authorDisplayName.replace('@', '') }}</td>
-              
-              <td>{{ comment.snippet.topLevelComment.snippet.textDisplay }}</td>
-              <td>
-                {% if comment.sentiment %} 
-                <ul class="d-flex gap-3 text-center ">
-                    <p>Positive <br>{{ comment.sentiment.pos *100 }}%</p>
-                    <p>Negative <br>{{ comment.sentiment.neg *100 }}%</p>
-                    <p>Neutral <br> {{ comment.sentiment.neu *100 }}%</p>
-                    <p>Compound <br>{{ comment.sentiment.compound *100 }}%</p>
-                </ul>
-                {% else %}
-                N/A
-                {% endif %}
-            </td>
-            </tr>
-            {% endfor %}  
-          </tbody>
-        </table>
-        
+<main class="col-md-12 ms-sm-auto px-md-4 " style="height: 100vh;">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-success">Average Positive Sentiments : {{ avg_positive }}%</button>
+        <button type="button" class="btn btn-sm btn-danger">Average Negative Sentiments : {{ avg_negative }}%</button>
       </div>
-      
-  </section>  
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table border table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Username</th>
+          <th scope="col">Comments</th>
+          <th scope="col">Sentiment Analysis</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for comment in comments %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ comment.snippet.topLevelComment.snippet.authorDisplayName.replace('@', '') }}</td>
+          <td>{{ comment.snippet.topLevelComment.snippet.textDisplay }}</td>
+          <td>
+            {% if comment.sentiment %} 
+                <ul class="d-flex gap-3 text-center ">
+                    <p>Positive <br>{{ comment.sentiment.pos * 100 }}%</p>
+                    <p>Negative <br>{{ comment.sentiment.neg * 100 }}%</p>
+                    <p>Neutral <br> {{ comment.sentiment.neu * 100 }}%</p>
+                    <p>Compound <br>{{ comment.sentiment.compound * 100 }}%</p>
+                </ul>
+            {% else %}
+                N/A
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </main>
 {% endblock %}
-    
-    
-    <!-- <script>
-      document.getElementById('sentiment-analyzer').addEventListener('click', function() {
-          analyzeSentiments();
-      });
-
-      function analyzeSentiments() {
-          // AJAX request to trigger sentiment analysis
-          $.ajax({
-              type: 'GET', // Change to GET if you're retrieving the comments from the server
-              url: '/analyze_sentiments', // URL to trigger sentiment analysis
-              success: function(response) {
-                  alert('Sentiment analysis completed!');
-                  // Handle sentiment analysis results if needed
-              }
-          });
-      }
-  </script> -->

@@ -2,3 +2,13 @@ flask
 python-dotenv
 vaderSentiment
 google-api-python-client
+
+
+##################33
+
+# 1) comparison with other videos is m  yeh hogs k content creator ko pta hoga k wo kis topic pr ziada positive sentiments aty, 
+############################## 2) sentiments wordcloud jis mn positibe or negative words ki images hongy
+# 3) Feedbacks trend over time 
+# if certain types of content consistently receive positive feedback over time, creators may choose to focus on producing similar content in the future.
+# 4) Feedback improvement recommendation 
+# if negative sentiments often mention audio quality, a recommendation might suggest improving audio production.
