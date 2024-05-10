@@ -1,16 +1,16 @@
-const ourProjects = ["All", "Video", "Audio"];
 
-const btn = document.querySelector(".btn-container");
 
-window.addEventListener("DOMContentLoaded", function () {
-  displayButtons(ourProjects);
+let filterCheck = document.getElementById('filteredComment');
+let allCommentsTable = document.getElementById('allCommentsTable');
+let filteredCommentsTable = document.getElementById('filteredCommentsTable');
+
+
+filterCheck.addEventListener('change', (event) => {
+  if (event.target.checked) {
+    allCommentsTable.classList.add('d-none');
+    filteredCommentsTable.classList.remove('d-none');
+  } else {
+    allCommentsTable.classList.remove('d-none');
+    filteredCommentsTable.classList.add('d-none');
+  }
 });
-
-function displayButtons(proj) {
-  const category = proj
-    .map((item) => {
-      return `<button class="filter-btn btn btn-outline-primary text-uppercase m-1 " data-id=${item}>${item}</button>`;
-    })
-    .join("");
-  btn.innerHTML = category;
-}

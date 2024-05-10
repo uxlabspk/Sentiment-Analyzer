@@ -8,6 +8,12 @@ content %}
     <div class="btn-toolbar mb-2 mb-md-0 gap-2">
       <div class="btn-container"></div>
 
+      <div class="form-check d-flex justify-content-between gap-1">
+        <input class="form-check-input" type="checkbox" value="" id="filteredComment">
+        <label class="form-check-label" for="filteredComment">
+          Filter Comments
+        </label>
+      </div>
       <div class="btn-group me-2">
         <button type="button" class="btn btn-sm btn-success">
           Average Positive Sentiments : {{ avg_positive }}%
@@ -19,7 +25,7 @@ content %}
     </div>
   </div>
   <div class="table-responsive">
-    <table class="table border table-sm">
+    <table class="table border table-sm" id="allCommentsTable">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -30,7 +36,7 @@ content %}
       </thead>
       <tbody>
         {% for comment in comments %}
-        <tr id="{{ filteredComment.found_keywords }}">
+        <tr>
           <td>{{ loop.index }}</td>
           <td>
             {{
@@ -58,7 +64,7 @@ content %}
       </tbody>
     </table>
 
-    <table>
+    <table id="filteredCommentsTable" class="table table-sm border d-none"> 
       <tbody>
         <tr>
           <th scope="col">Keywords</th>

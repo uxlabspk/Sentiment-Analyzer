@@ -37,7 +37,6 @@ def comments():
 
         positive_Average = 0
         negative_Average = 0
-        idType = ''
         filtered_comments = []
 
         for comment in comments['items']:
@@ -62,14 +61,14 @@ def comments():
             
         # print(filtered_comments)
 
-        for filtered in filtered_comments:
-            textCom = filtered['snippet']['topLevelComment']['snippet']['textDisplay']
-            print(textCom)
+        # for filtered in filtered_comments:
+        #     textCom = filtered['snippet']['topLevelComment']['snippet']['textDisplay']
+        #     print(textCom)
             
         
             
     
-        return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average) / 100, avg_negative = round(negative_Average) / 100, contentType = idType, filteredComment=filtered_comments)
+        return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average) / 100, avg_negative = round(negative_Average) / 100, filteredComment=filtered_comments)
 
     else:
         return render_template('index.html')
