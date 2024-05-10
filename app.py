@@ -4,6 +4,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from dotenv import load_dotenv
 import os
 import re
+import html
 
 load_dotenv()
 api_KEY = os.getenv('API_KEY')
@@ -41,6 +42,7 @@ def comments():
 
         for comment in comments['items']:
             text = comment['snippet']['topLevelComment']['snippet']['textDisplay']
+            comment['snippet']['topLevelComment']['snippet']['textDisplay'] = re.sub(r'<.*?>', '', comment['snippet']['topLevelComment']['snippet']['textDisplay'])
             sentiment_score = analyzer.polarity_scores(text)
             comment['sentiment'] = sentiment_score
 
@@ -55,18 +57,7 @@ def comments():
                     found_keywords.append(word)
             if found_keywords:
                 comment['found_keywords'] = found_keywords
-                filtered_comments.append(comment)
-
-
-            
-        # print(filtered_comments)
-
-        # for filtered in filtered_comments:
-        #     textCom = filtered['snippet']['topLevelComment']['snippet']['textDisplay']
-        #     print(textCom)
-            
-        
-            
+                filtered_comments.append(comment)     
     
         return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average) / 100, avg_negative = round(negative_Average) / 100, filteredComment=filtered_comments)
 
