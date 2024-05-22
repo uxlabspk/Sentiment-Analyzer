@@ -21,45 +21,7 @@ def comments():
     if request.method == 'POST' and 'video_id' in request.form:
         video_id = get_youtube_video_id(request.form['video_id'])
         api_key = api_KEY
-        
-        youtube = build('youtube', 'v3', developerKey=api_key)
-        
-        try:
-            comments = youtube.commentThreads().list(
-                part = "snippet",
-                videoId = video_id,
-                maxResults = 100
-            ).execute()
-        except:
-            print("Something went wrong")
-            return render_template('404.html')
-
-        analyzer = SentimentIntensityAnalyzer()
-
-        positive_Average = 0
-        negative_Average = 0
-        filtered_comments = []
-
-        for comment in comments['items']:
-            text = comment['snippet']['topLevelComment']['snippet']['textDisplay']
-            comment['snippet']['topLevelComment']['snippet']['textDisplay'] = re.sub(r'<.*?>', '', comment['snippet']['topLevelComment']['snippet']['textDisplay'])
-            sentiment_score = analyzer.polarity_scores(text)
-            comment['sentiment'] = sentiment_score
-
-            
-            positive_Average += comment['sentiment']['pos']
-            negative_Average += comment['sentiment']['neg']
-
-            words = text.split(" ")
-            found_keywords = []
-            for word in words:
-                if word in ['audio', 'video', 'recommendation', 'song']:
-                    found_keywords.append(word)
-            if found_keywords:
-                comment['found_keywords'] = found_keywords
-                filtered_comments.append(comment)     
-    
-        return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average) / 100, avg_negative = round(negative_Average) / 100, filteredComment=filtered_comments)
+        return fetchComments(video_id, api_key)    
 
     else:
         return render_template('index.html')
@@ -74,6 +36,47 @@ def get_youtube_video_id(url):
         return match.group(1)
     else:
         return -1
+
+
+def fetchComments(video_id, api_key):
+    youtube = build('youtube', 'v3', developerKey=api_key)
+        
+    try:
+        comments = youtube.commentThreads().list(
+            part = "snippet",
+            videoId = video_id,
+            maxResults = 100
+        ).execute()
+    except:
+        print("Something went wrong")
+        return render_template('404.html')
+
+    analyzer = SentimentIntensityAnalyzer()
+
+    positive_Average = 0
+    negative_Average = 0
+    filtered_comments = []
+
+    for comment in comments['items']:
+        text = comment['snippet']['topLevelComment']['snippet']['textDisplay']
+        comment['snippet']['topLevelComment']['snippet']['textDisplay'] = re.sub(r'<.*?>', '', comment['snippet']['topLevelComment']['snippet']['textDisplay'])
+        sentiment_score = analyzer.polarity_scores(text)
+        comment['sentiment'] = sentiment_score
+
+        
+        positive_Average += comment['sentiment']['pos']
+        negative_Average += comment['sentiment']['neg']
+
+        words = text.split(" ")
+        found_keywords = []
+        for word in words:
+            if word in ['audio', 'video', 'recommendation', 'song']:
+                found_keywords.append(word)
+        if found_keywords:
+            comment['found_keywords'] = found_keywords
+            filtered_comments.append(comment)     
+
+    return render_template('comments.html', comments = comments['items'], avg_positive = round(positive_Average) / 100, avg_negative = round(negative_Average) / 100, filteredComment=filtered_comments)
 
 
 
