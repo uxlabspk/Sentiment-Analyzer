@@ -12,10 +12,10 @@
     <section class="p-5 text-center" >
         {% for item in response['items'] %}
             <div class="card">
-                <img src="{{ item['thumbnail'] }}" alt="{{ item['title'] }}">
+                <img src="{{ item['snippet']['thumbnails']['default']['url'] }}" alt="{{ item['title'] }}">
                 <div class="card-body">
-                    <h2>{{ item['title'] }}</h2>
-                    <p>{{ item['description'] }}</p>
+                    <h2>{{ item['snippet']['title'] }}</h2>
+                    <p>{{ item['snippet']['description'] }}</p>
                     <a href="https://www.youtube.com/watch?v={{ item['video_id'] }}" target="_blank">Watch Video</a>
                 </div>
             </div>
