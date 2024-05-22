@@ -12,7 +12,7 @@
         <h1>YouTube Comments Sentiments Analyze</h1>
         <form action="{{ url_for('comments') }}" method="post">
           <div class="mb-3">
-            <input type="text" class="form-control" id="video_id" name="video_id" required="" minlength="8" aria-describedby="emailHelp" placeholder="Enter YouTube video url ...">
+            <input type="text" class="form-control" id="video_id" name="video_id" required="" minlength="4" aria-describedby="emailHelp" placeholder="Enter YouTube video url ...">
           </div>
           <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
           <p class="text-center mt-3 text-danger">{{ error_code }}</p>
