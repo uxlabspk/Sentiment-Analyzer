@@ -57,8 +57,6 @@ def fetchChannelVideos(video_id, api_key):
     channels_response = youtube.search().list(
         part='snippet'
     ).execute()
-
-    print(channels_response)
     
     # Get the channel ID
     # channel_id = channels_response['etag']
@@ -81,7 +79,7 @@ def fetchChannelVideos(video_id, api_key):
     #         'video_id': item['snippet']['resourceId']['videoId']
     #     })
     
-    return render_template('channelVideos.html', videos=channels_response)
+    return render_template('channelVideos.html', response=channels_response)
     # return render_template('404.html')
 
 
