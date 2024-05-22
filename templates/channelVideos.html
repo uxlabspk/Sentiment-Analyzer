@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    404 | Not Found
+{% endblock %}
+
+
+
+{% block content %}
+<main class="container  d-flex flex-column  align-items-center justify-content-center" style="height: 100vh;">
+    <section class="p-5 text-center" >
+        <ul>
+            {% for video in videos %}
+                <li>
+                    <h3>{{ video.title }}</h3>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video.video_id }}" frameborder="0" allowfullscreen></iframe>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
+{% endblock %}

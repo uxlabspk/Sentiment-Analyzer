@@ -46,8 +46,34 @@ def get_youtube_video_id(url):
 
 
 def fetchChannelVideos(video_id, api_key):
-    # return your logic
-    return render_template('404.html')
+    youtube = build('youtube', 'v3', developerKey=api_key)
+    
+    # Call the channels.list method to retrieve information about the channel
+    channels_response = youtube.channels().list(
+        part='contentDetails',
+        forUsername=video_id
+    ).execute()
+    
+    # Get the channel ID
+    channel_id = channels_response['items'][0]['id']
+    
+    # Call the playlistItems.list method to retrieve the most recent videos from the channel
+    playlist_items_response = youtube.playlistItems().list(
+        part='snippet',
+        playlistId=channel_id,
+        maxResults=10
+    ).execute()
+    
+    # Extract video information
+    videos = []
+    for item in playlist_items_response['items']:
+        videos.append({
+            'title': item['snippet']['title'],
+            'video_id': item['snippet']['resourceId']['videoId']
+        })
+    
+    return render_template('channelVideos.html', videos=videos)
+    # return render_template('404.html')
 
 
 
