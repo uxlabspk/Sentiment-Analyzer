@@ -8,15 +8,15 @@
 
 
 {% block content %}
-<main class="container  d-flex flex-column  align-items-center justify-content-center" style="height: 100vh;">
-    <section class="p-5 text-center" >
+<main class="container  d-flex flex-column  align-items-center justify-content-center">
+    <section class="p-5 text-center gap-2 " >
         {% for item in response['items'] %}
-            <div class="card">
-                <img src="{{ item['snippet']['thumbnails']['default']['url'] }}" alt="{{ item['title'] }}">
+            <div class="card shadow-sm" style="width: 600px; ">
+                <img src="{{ item['snippet']['thumbnails']['default']['url'] }}" alt="{{ item['title'] }}" >
                 <div class="card-body">
-                    <h2>{{ item['snippet']['title'] }}</h2>
-                    <p>{{ item['snippet']['description'] }}</p>
-                    <a href="https://www.youtube.com/watch?v={{ item['video_id'] }}" target="_blank">Watch Video</a>
+                    <h2 class="card-title ">{{ item['snippet']['title'] }}</h2>
+                    <p class="card-text ">{{ item['snippet']['description'] }}</p>
+                    <a class="card-footer " href="https://www.youtube.com/watch?v={{ item['video_id'] }}" target="_blank">Watch Video</a>
                 </div>
             </div>
         {% endfor %}
