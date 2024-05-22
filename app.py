@@ -19,14 +19,21 @@ def index():
 @app.route('/comments', methods=['POST', 'GET'])
 def comments():
     if request.method == 'POST' and 'video_id' in request.form:
+        if (request.form['video_id'].startswith("@")):
+            channel = get_youtube_channel_name(request.form['video_id'])
+            api_key = api_KEY
+            return fetchChannelVideos(channel, api_key)        
+
         video_id = get_youtube_video_id(request.form['video_id'])
         api_key = api_KEY
         return fetchComments(video_id, api_key)    
 
-    else:
-        return render_template('index.html')
+    return render_template('index.html')
 
 
+
+def get_youtube_channel_name(url):
+    return url[1:]  
 
 
 def get_youtube_video_id(url):
@@ -36,6 +43,12 @@ def get_youtube_video_id(url):
         return match.group(1)
     else:
         return -1
+
+
+def fetchChannelVideos(video_id, api_key):
+    # return your logic
+    return render_template('404.html')
+
 
 
 def fetchComments(video_id, api_key):
