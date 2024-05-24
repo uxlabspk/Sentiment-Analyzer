@@ -2,30 +2,24 @@
 
 
 {% block title %}
-    404 | Not Found
+  Top Channel Results
 {% endblock %}
-
-
 
 {% block content %}
 <main class="container d-flex flex-column  align-items-center justify-content-center p-5 ">
-    <section class="text-center gap-4 row " >
-        {% for item in response['items'] %}
-            <div class="card" >
-                <div class="row g-0">
-                  <div class="col-md-3">
-                    <img src="{{ item['snippet']['thumbnails']['default']['url'] }}" alt="{{ item['title'] }}" height="100%" >
-                  </div>
-                  <div class="col-md-9 text-start">
-                    <div class="card-body">
-                        <h5 class="card-title" >{{ item['snippet']['title'] }}</h5>
-                        <p class="card-text ">{{ item['snippet']['description'] }}</p>
-                        <a class=" btn btn-outline-primary " href="https://www.youtube.com/watch?v={{ item['video_id'] }}" target="_blank">Watch Video</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        {% endfor %}
-    </section>
+  <section class="text-center gap-4 row ">
+    {% for item in response['items'] %}
+    <div class="col">
+      <div class="card" style="min-width: 300px; max-width: auto; min-height: 550px; max-height: auto;">
+        <img src="{{ item['snippet']['thumbnails']['default']['url'] }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ item['snippet']['title'] }}</h5>
+          <p class="card-text">{{ item['snippet']['description'] }}</p>
+          <a href="https://www.youtube.com/watch?v={{ item['video_id'] }}" class="btn btn-primary">Go Watch</a>
+        </div>
+      </div>
+    </div>
+      {% endfor %}
+  </section>
 </main>
 {% endblock %}
