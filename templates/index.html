@@ -14,7 +14,15 @@
           <div class="mb-3">
             <input type="text" class="form-control" id="video_id" name="video_id" required="" minlength="4" aria-describedby="emailHelp" placeholder="Enter YouTube video url ...">
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Search Comments</button>
+          <p class="text-center mt-3 text-danger">{{ error_code }}</p>
+        </form>
+
+        <form action="{{ url_for('channel') }}" method="post">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="video_id" name="video_id" required="" minlength="4" aria-describedby="emailHelp" placeholder="Search YouTube channels...">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Search Channel</button>
           <p class="text-center mt-3 text-danger">{{ error_code }}</p>
         </form>
     </section>

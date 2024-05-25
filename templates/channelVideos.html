@@ -13,9 +13,16 @@
       <div class="card" style="min-width: 300px; max-width: auto; min-height: 550px; max-height: auto;">
         <img src="{{ item['snippet']['thumbnails']['default']['url'] }}" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">{{ item['snippet']['title'] }}</h5>
+          <h5 class="card-title">
+            <a href="https://www.youtube.com/watch?v={{ item['id']['videoId'] }}" class="nav-link">
+              {{ item['snippet']['title'] }}
+            </a>
+          </h5>
           <p class="card-text">{{ item['snippet']['description'] }}</p>
-          <a href="https://www.youtube.com/watch?v={{ item['video_id'] }}" class="btn btn-primary">Go Watch</a>
+          <form action="{{ url_for('comments') }}" method="post">
+            <input type="text" class="form-control" id="video_id" name="video_id" value="https://www.youtube.com/watch?v={{ item['id']['videoId'] }}" hidden required="" minlength="4" aria-describedby="emailHelp" placeholder="Enter YouTube video url ...">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Search Comments</button>
+          </form>
         </div>
       </div>
     </div>

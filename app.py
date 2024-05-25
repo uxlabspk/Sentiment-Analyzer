@@ -15,26 +15,21 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/channel', methods=['POST', 'GET'])
+def channel():
+    if request.method == 'POST' and 'video_id' in request.form:
+        channel = request.form['video_id']
+        api_key = api_KEY
+        return fetchChannelVideos(channel, api_key)
+    
+    return render_template('error.html')
 
 @app.route('/comments', methods=['POST', 'GET'])
 def comments():
     if request.method == 'POST' and 'video_id' in request.form:
-        if (request.form['video_id'].startswith("@")):
-            channel = get_youtube_channel_name(request.form['video_id'])
-            api_key = api_KEY
-            return fetchChannelVideos(channel, api_key)        
-
         video_id = get_youtube_video_id(request.form['video_id'])
         api_key = api_KEY
         return fetchComments(video_id, api_key)    
-
-    return render_template('index.html')
-
-
-
-def get_youtube_channel_name(url):
-    return url[1:]  
-
 
 def get_youtube_video_id(url):
     pattern = r"^https:\/\/(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|)([^#\&\?]*).*"
@@ -47,41 +42,13 @@ def get_youtube_video_id(url):
 
 def fetchChannelVideos(video_id, api_key):
     youtube = build('youtube', 'v3', developerKey=api_key)
-    
-    # Call the channels.list method to retrieve information about the channel
-    # channels_response = youtube.channels().list(
-    #     part='contentDetails',
-    #     forUsername=video_id
-    # ).execute()
 
     channels_response = youtube.search().list(
         part='snippet'
     ).execute()
-    
-    # Get the channel ID
-    # channel_id = channels_response['etag']
-    # # channel_id = channels_response['items'][0]['id']
-    
-    # # # Call the playlistItems.list method to retrieve the most recent videos from the channel
-    # playlist_items_response = youtube.playlistItems().list(
-    #     part='snippet',
-    #     playlistId=channel_id,
-    #     maxResults=10
-    # ).execute()
 
-    # print(playlist_items_response)
-    
-    # # Extract video information
-    # videos = []
-    # for item in playlist_items_response['items']:
-    #     videos.append({
-    #         'title': item['snippet']['title'],
-    #         'video_id': item['snippet']['resourceId']['videoId']
-    #     })
-    
     return render_template('channelVideos.html', response=channels_response)
-    # return render_template('404.html')
-
+    
 
 
 def fetchComments(video_id, api_key):
@@ -95,7 +62,7 @@ def fetchComments(video_id, api_key):
         ).execute()
     except:
         print("Something went wrong")
-        return render_template('404.html')
+        return render_template('error.html')
 
     analyzer = SentimentIntensityAnalyzer()
 
