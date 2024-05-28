@@ -44,8 +44,11 @@ def fetchChannelVideos(video_id, api_key):
     youtube = build('youtube', 'v3', developerKey=api_key)
 
     channels_response = youtube.search().list(
-        part='snippet'
+        part='snippet',
+        q=video_id,
+
     ).execute()
+
 
     return render_template('channelVideos.html', response=channels_response)
     
